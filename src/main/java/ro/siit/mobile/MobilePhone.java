@@ -12,39 +12,65 @@ public class MobilePhone {
     }
 
     public boolean addNewContact(String name, String phoneNumber) {
-//        Returns true if the contact doesn't exists, or false if the contact already exists.
-
+        int contactPosition = findContact(name);
+        if (contactPosition >= 0) {
+            return false;
+        }
+        myContacts.add(Contact.createContact(name, phoneNumber));
         return true;
     }
 
     public boolean updateContact(Contact oldContact, Contact newContact) {
-//        The old contact that will be updated with the new contact) and returns a boolean.
-//        Returns true if the contact exists and was updated successfully
-        return true;
+        int contactPosition = findContact(oldContact);
+        if (contactPosition >= 0) {
+            myContacts.set(contactPosition, newContact);
+            return true;
+        }
+        return false;
     }
 
     public boolean removeContact(Contact contact) {
-//        Returns true if the contact exists and was removed successfully
-        return true;
+        int contactPosition = findContact(contact);
+        if (contactPosition >= 0) {
+            myContacts.remove(contactPosition);
+            return true;
+        }
+        return false;
     }
 
     public int findContact(Contact contact) {
-        return 1;
+        for (int i = 0; i < myContacts.size(); i++) {
+            if (contact.equals(myContacts.get(i))) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     public int findContact(String name) {
-        return 1;
+        for (int i = 0; i < myContacts.size(); i++) {
+            if (name.equals(myContacts.get(i).getName())) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     public Contact queryContacts(String name) {
-//        Use the String to search for the name and then return the Contact.
-        return null;
+        int contactPosition = findContact(name);
+        if (contactPosition >= 0) {
+            return myContacts.get(contactPosition);
+        }
+        return Contact.createContact("No contact", "No number");
     }
 
     public void printContacts() {
+        for (Contact contact: myContacts) {
+            System.out.println(contact);
+        }
+    }
 
+    public int getContactsListSize() {
+        return myContacts.size();
     }
 }
-
-//    In MobilePhone, use findContact() in the other methods (except printContacts()) to check if
-//        it exists before proceeding. Two Contact objects are equal if they have the same name.
